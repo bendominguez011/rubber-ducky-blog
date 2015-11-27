@@ -1,0 +1,14 @@
+span {
+  font-family: Consolas, monospace, sans-serif;
+}
+#keyword {
+  color: #4CA67A;
+}
+
+#built_in_function {
+  color:  #7b68ee;
+}
+
+#int {
+  color: #cf2435;
+}

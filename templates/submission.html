@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="form-horizontal" action="" method="post" name="new post">
+	{{ form.hidden_tag() }}
+	<p>
+		question/request</p>
+		{{ form.submission(cols=40, rows=5) }}
+	<p><input type="submit" value="Submit question/request"></p>
+</form>
+{% endblock content %}

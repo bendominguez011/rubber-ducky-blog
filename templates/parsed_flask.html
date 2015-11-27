@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<p>So for my first post I'm going to show you how to get going a very simple application on flask.
+I started writing applications with flask right after reading Learn Python the Hard Way, and was very confused at first on where to start. I'm writing these posts with the assumption that the reader has at least read LPTHW and will make accomodations for those readers based on LPTHW.
+You are going to need Python v2.7 (which you already have if you read LPTHW, but probably not if you haven't and use Python 3) as Flask is a web framework for python, and I'll go over installing the required modules.
+This post is written assuming you have a Unix-based operating system. I do not go over the appropriate commands needed for installing and running modules in Windows.
+To begin, You're going to need to install Flask and Virtualenv if you dont already have it. Make sure you have pip and run the command:</p>
+<kbd>pip install virtualenv</kbd>
+<p>Then, in your root directory for the project, create the virtual environment with the command</p>
+<kbd>virtualenv flask</kbd>
+<p>You will now end up with a directory with the virtual environment for flask, and now the last step is to install flask:</p>
+<kbd>flask/bin/pip install flask</kbd>
+<p>For now, also install the flask extension for SQL-Alchemy:</p>
+<kbd>flask/bin/pip install flask-sqlalchemy</kbd>
+<p>
+Since this application should be pretty simple, I'm going to go over how to make a blogging app (lol and you probably know by now that almost every tutorial for flask does the same thing)
+There are hoenstly a lot of different ways to start creating a web app, and a lot of people are going to have different views on where to start. I personally like starting with my models, since by the end the models end up getting as complex as the views, they are easy to test (so you can write tests early on), and once you finish your models you have a good idea of all the features you want to implement in your views.
+I've had times where I've started an app and had to keep going back and forth between my views module and models module, and it got really annoying after a while.
+We wouldnt even have that problem here though, since I'm going to keep both the database models and views on the same script, but the other reasons still apply.
+To start off, lets create our app.py script, make sure you are in the project directory and:</p>
+<kbd>touch app.py</kbd>
+<p>
+The hello world for a flask app goes something like this:
+</p>
+<pre>
+<div class="code">
+<span id="keyword">from</span> flask <span id="keyword">import</span> Flask
+
+app = Flask(<span id="built_in_function">__name__</span>)
+
+@app.route('/')
+<span id="keyword">def</span> hello_world():
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="keyword">return</span> "&lt;h1&gt;Hello World&lt;/h1&gt;"
+
+<span id="keyword">if</span> <span id="special">__name__</span> == '__main__':
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; app.run(debug=<span id="built_in_function">True</span>, host='0.0.0.0')
+</div>
+</pre>
+<p> So basically here's whats going on in case it's a lot to digest. The first line we are importing the Flask from the flask module we just installed. That's it.
+Then, we are setting an object we are calling "app" to an instance of the Flask class, with an argument for the name of our app's module.
+Now we are using flask's route decorator to tell Flask what url, this function goes to. If you're that familiar with decorators, that's fine you can get by using flask wihtout really knowing what they are.
+If you want to learn how to use decorators in python it would probably not benefit you that much in terms of building app with flask itself, but it is still a useful tool inbedded into python.
+I am also actually planning on making a tutortial on decorators in python, so check that out soon. Anyway, we have our first view function next, which you can call whatever, and then we have a return statement, which returns what needs to be sent to the browser.
+Later we will learn about returning full templates with flask's render_template function. For now though I'm going to remove that view part for now so we can focus on our models, not that it even matters that much.
+Finally the last snippet, which is the conditional. if you don't know what that if block means, the if block will only run given that this app.py is the script executed, and wont run any of the code here if this module is imported into another script.
+Then under the if block, we use flask's run function to run the local server when this script is executed, and as a keyword argument set debug equal to True to activate flask's built in debugger, and the host argument sets our local host.
+At this point, you could run the script by</p>
+<kbd>flask/bin/python app.py</kbd>
+<p>Open up your browser to 0.0.0.0:5000 and you should see in a heading "Hello World". For now though, we are going to remove that view function so we can write our models without worrying at all about our views.
+So the script should look like this now:
+<pre>
+<div class="code">
+<span id="keyword">from</span> flask <span id="keyword">import</span> Flask
+
+app = Flask(<span id="built_in_function">__name__</span>)
+
+<span id="keyword">if</span> <span id="special">__name__</span> == "__main__":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; app.run(debug=<span id="built_in_function">True</span>, host='0.0.0.0')
+</div>
+</pre>
+<p>For our database tables, instead of using SQL to write the tables, we are going to create python classes that are called database models, and then SQLAlchemy and the ORM is going to map these classes to tables and rows in an actual database so we can store data.
+In the next post we're going to go over the actual code for writing our classes for database models, but before that we need to think about how to write our models.
+What pieces of data do we need to store in a database? Can it be stored for a user in a session cookie (data stored in the browser until it's closed)?
+Well, we are going to certainly need to store posts in the database because we cant have submitted posts delete for a user after a session is closed, and we need to be able to have a way for other users to view a post.
+So we are going to have to have a posts table that stores all the information of the post. So what attributes (rows) does a post have? Well, every post should have a title, body, author, and timestamp, and if we want to get fancy, every post could also have a subject.
+But every subject could have multiple posts right? And wouldnt we also have to also store the name of subjects in our database as well, not under posts? That would have to be a different model though. To organize all this we use database relationships.
+We will be using 2 types of database relationships in our app, many-to-many and one-to-many, a good example of a many-to-many relationship would be something like: one subreddit has <b>many users</b>, and one user is subscribed to <b>many</b> subreddits.
+Or, one post has/can have <b>many</b> subjects, while a subject has/can have <b>many</b> posts under it. We'll go through the actual code to implement this relationship next post.
+An example of a one-to-many can be: One user has many posts, but every post only has one user.
+That's enough for today, not a lot of writing code but hopefuly you have a good idea of the theory part of what were trying to implement. If you are confused about anything on the database I would suggest researching and looking at the Flask-SQLAlchemy documentation or source code at least.
+Next post on this subject will be on implementing the actual code for the database models. Link for Flask-SQLAlchemy documentation and source code:
+<ul>
+<li><a href="https://pythonhosted.org/Flask-SQLAlchemy/">Flask SQL-Alchemy Documentation</a></li>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy"> Flask SQL-Alchemy Source Code</a></li>
+</ul>
+{% endblock content %}
