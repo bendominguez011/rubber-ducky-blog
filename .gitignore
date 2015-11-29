@@ -1,4 +1,3 @@
 *.pyc
 flask
-*.db
 .DS_Store

@@ -57,6 +57,3 @@ class Parser(object):
                                 line = Parser.wrap(line, f, 'built_in_function')
                 new_file.write(line + '\n')
         return parsed
-
-parse = Parser('flask.html')
-parse.parse_file()
