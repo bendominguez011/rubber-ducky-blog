@@ -2,3 +2,4 @@
 flask
 .DS_Store
 *.db
+whoosh_index
