@@ -3,3 +3,4 @@ flask
 .DS_Store
 *.db
 whoosh_index
+commands.txt
