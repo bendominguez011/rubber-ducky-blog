@@ -15,12 +15,12 @@ if search_enabled:
 
 app = Flask(__name__)
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
 if os.environ.get('DATABASE_URL') is not None:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+
 db = SQLAlchemy(app)
 app.secret_key = os.urandom(7)
 WTF_CRSF_ENABLED = True
