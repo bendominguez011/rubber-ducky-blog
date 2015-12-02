@@ -111,5 +111,9 @@ def most_recent_post(post_id):
     template = post.filename
     return render_template(template, post=post)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
