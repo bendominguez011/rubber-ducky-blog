@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+<p> In a previous tutorial we set up a very basic skeleton to start our flask app. In this post, we are going to set up the database.
+First, we have to install the appropriate modules and packages.
+In the terminal run the command:</p>
+<kbd>flask/bin/pip install flask-sqlalchemy</kbd>
+<p> This is our one module we are going to use to help us write database models. Flask SQL-ALchemy is a helpre tool for SQL and Python, and has an included Object-Relational Mapper.
+  All this means is that we can create dataase tables and query using Python instead of SQL (Standard Querying Language), and this is done using Object Oriented Programming.
+For now, we are going to need to find a URI, or path, to our current directory and store it as a string in the variable SQLALCHEMY_DATABASE_URI
+So in the same module app.py,</p>
+<pre>
+<div class="code">
+<span id="keyword">from</span> flask <span id="keyword">import</span> Flask
+<span id="keyword">from</span> flask.ext.sqlalchemy <span id="keyword">import</span> SQLAlchemy
+<span id="keyword">import</span> os
+
+app = Flask(__name__)
+
+<div class="new">
+base_directory = os.path.dirname(__file__)
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.abspath(base_directory), 'app.db')
+
+db = SQLAlchemy(app)
+</div>
+
+app.route('/')
+<span id="keyword">def</span> hello_world():
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="keyword">return</span> "Hello World"
+
+<span id="keyword">if</span> <span id="special">__name__</span> == "__main__":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; app.run(debug=True, host="0.0.0.0")
+</div>

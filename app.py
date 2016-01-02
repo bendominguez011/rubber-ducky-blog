@@ -2,24 +2,19 @@ from flask import Flask
 import jinja2
 from flask import render_template, redirect, request, flash, url_for, g
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.wtf import Form
-from wtforms import StringField
-from wtforms.validators import DataRequired
-from wtforms.widgets import TextArea
 from datetime import datetime
 import os
 
-search_enabled = os.environ.get('HEROKU') is None
-if search_enabled:
-    import flask.ext.whooshalchemy as whoosh
-
 app = Flask(__name__)
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db')
+
+SQLALCHEMY_DATABASE_URI ='sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db')
+
 
 if os.environ.get('DATABASE_URL') is not None:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 app.secret_key = os.urandom(7)
@@ -29,40 +24,8 @@ base = os.path.abspath(os.path.dirname(__file__))
 whoosh_base = os.path.join(base, 'search.db')
 posts_per_page = 10
 
-class SubmissionForm(Form):
-    submission = StringField('submission', widget=TextArea(), validators=[DataRequired()])
+from models import Post, SubmissionForm, SearchForm
 
-class SearchForm(Form):
-    query = StringField('query', validators=[DataRequired()])
-
-class Post(db.Model):
-    __searchable__ = ['title']
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140))
-    filename = db.Column(db.String())
-    time_created = db.Column(db.DateTime)
-
-    def __init__(self, title, filename):
-        self.title = title
-        self.filename = filename
-        self.time_created = datetime.utcnow()
-
-    def __repr__(self):
-        return "<Title %r>" % self.title
-
-if search_enabled:
-    whoosh.whoosh_index(app, Post)
-
-class Submission(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    submission = db.Column(db.String(140))
-
-    def __init__(self, submission):
-        self.submission = submission
-
-    def __repr__(self):
-        return "<Submission %r>" % self.submission
 
 @app.before_request
 def before_request():
@@ -114,6 +77,3 @@ def most_recent_post(post_id):
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')

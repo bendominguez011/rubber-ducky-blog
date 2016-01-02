@@ -1,6 +1,7 @@
 span {
   font-family: Consolas, monospace, sans-serif;
 }
+
 #keyword {
   color: #4CA67A;
 }
@@ -11,4 +12,8 @@ span {
 
 #int {
   color: #cf2435;
+}
+
+.new {
+  color: red;
 }
