@@ -15,5 +15,12 @@ span {
 }
 
 .new {
-  color: red;
+  color: #336699;
+}
+
+#about {
+  width: 50%;
+  font-size: large;
+  position: relative;
+  left: 10px;
 }

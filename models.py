@@ -2,7 +2,7 @@ from flask.ext.wtf import Form
 from wtforms import StringField
 from wtforms.validators import DataRequired
 from wtforms.widgets import TextArea
-import os
+import os, datetime
 
 from app import db
 from app import app
@@ -28,7 +28,7 @@ class Post(db.Model):
     def __init__(self, title, filename):
         self.title = title
         self.filename = filename
-        self.time_created = datetime.utcnow()
+        self.time_created = datetime.datetime.utcnow()
 
     def __repr__(self):
         return "<Title %r>" % self.title
