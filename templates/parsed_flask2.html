@@ -23,7 +23,7 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.abspath(base_direc
 db = SQLAlchemy(app)
 </div>
 
-app.route('/')
+@app.route('/')
 <span id="keyword">def</span> hello_world():
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="keyword">return</span> "Hello World"
 
