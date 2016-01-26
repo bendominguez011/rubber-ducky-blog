@@ -1,2 +1,2 @@
 web: gunicorn app:app --log-file -
-setup: python db_setup.py
+db: python db.py

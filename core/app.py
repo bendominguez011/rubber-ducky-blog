@@ -68,11 +68,11 @@ def search():
         return redirect(url_for('index'))
     return render_template('search_results.html', query=query, results=results)
 
-@app.route('/post/<int:post_id>')
-def most_recent_post(post_id):
-    post = Post.query.order_by(Post.time_created).first()
-    template = post.filename
-    return render_template(template, post=post)
+@app.route('/recent')
+def most_recent_post():
+    post = Post.query.order_by(Post.time_created)\
+    .all().pop()
+    return redirect(url_for('post', post_id=post.id))
 
 @app.route('/about')
 def about():

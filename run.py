@@ -1,2 +1,2 @@
-from app import app
+from core.app import app
 app.run(debug=True, host='0.0.0.0')

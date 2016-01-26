@@ -4,3 +4,6 @@ flask
 *.db
 whoosh_index
 commands.txt
+core/static/js
+core/static/fonts
+core/static/css
