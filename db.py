@@ -1,5 +1,4 @@
 from core.app import db, Post
-import time
 
 db.drop_all()
 db.session.rollback()
