@@ -70,8 +70,8 @@ def search():
 
 @app.route('/recent')
 def most_recent_post():
-    post = Post.query.order_b
-    y(Post.time_created)\
+    post = Post.query.order_by\
+    (Post.time_created)\
     .all().pop()
     return redirect(url_for('post', post_id=post.id))
 
