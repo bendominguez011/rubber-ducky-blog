@@ -1,7 +1,5 @@
 # rubber-ducky-blog
 
-Note that the "clobbered" contributions page full of contributions titled "update" is due to me testing out a repository known as greenhat, a repository I recently started a fork of.
-
 #included extensions
 * [Flask-SQLAlchemy](https://pythonhosted.org/Flask-SQLAlchemy/) -- SQLAlchemy toolkit with built in ORM layer
 * [Flask-WhooshAlchemy](https://github.com/gyllstromk/Flask-WhooshAlchemy) -- searching posts
